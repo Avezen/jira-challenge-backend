@@ -8,7 +8,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class TaskController extends AbstractController
 {
     /**
-     * @Route("/task", name="task")
+     * @Route("/api", name="api")
+     */
+    public function api()
+    {
+        return $this->json(['authorized api!']);
+    }
+
+
+    /**
+     * @Route("/api/task", name="task")
      */
     public function index()
     {
