@@ -12,6 +12,3 @@ api_login_check:
   controller: App\Controller\AuthController::getTokenUser
   methods: POST
 
-test:
-  path: /api/test
-  controller: App\Controller\ApiController::test

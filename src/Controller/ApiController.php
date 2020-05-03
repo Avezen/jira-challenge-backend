@@ -8,13 +8,21 @@
 
 namespace App\Controller;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use App\CQRS\QueryBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-class ApiController extends AbstractController
+abstract class ApiController extends AbstractController
 {
+    protected $commandBus;
+    protected $queryBus;
+
+    public function __construct(MessageBusInterface $commandBus, QueryBus $queryBus)
+    {
+        $this->commandBus = $commandBus;
+        $this->queryBus = $queryBus;
+    }
 
     /**
      * @var integer HTTP status code - 200 (OK) by default

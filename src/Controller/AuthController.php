@@ -9,7 +9,7 @@
 namespace App\Controller;
 
 
-use App\Entity\User;
+use App\CQRS\User\Domain\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,10 +47,9 @@ class AuthController extends ApiController
      * @param JWTTokenManagerInterface $JWTManager
      * @return JsonResponse
      */
-    public function getTokenUser(UserInterface $user, JWTTokenManagerInterface $JWTManager)
+    public function getTokenUser(JWTTokenManagerInterface $JWTManager)
     {
-        dump($user);
-        die;
+        dd('dsds');
         return new JsonResponse(['token' => $JWTManager->create($user)]);
     }
 

@@ -10,9 +10,13 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
+            User:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/CQRS/User/Domain'
+                prefix: 'App\CQRS\User\Domain'
+            Task:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/CQRS/Task/Domain'
+                prefix: 'App\CQRS\Task\Domain'

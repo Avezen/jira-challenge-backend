@@ -1,0 +1,97 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Maciej Borzymowski
+ * Date: 2020-05-03
+ * Time: 13:12
+ */
+
+namespace App\CQRS\Task\Infrastructure\Read;
+
+
+use App\CQRS\Task\Application\Read\TasksInterface;
+use Doctrine\ORM\EntityManagerInterface;
+
+class TasksDbal implements TasksInterface
+{
+    private $connection;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->connection = $em->getConnection();
+    }
+
+    public function getTasks()
+    {
+        $qb = $this->connection->createQueryBuilder();
+
+//        $qb->select('*')
+//            ->from('tasks')
+//        ;
+//
+//        $tasks = $qb->execute()->fetchAll();
+
+        return [
+            [
+                "id" => 1,
+                "name" => 'Column one',
+                "description" => '',
+                "tasks" => [
+                    [
+                        "id" => 6,
+                        "name" => 'Task number six tra ta ta ta extender lorem impum ',
+                        "description" => 'Task description',
+                        "category" => 'BUG',
+                        "steps" => [
+                            'Task step number one',
+                            'Task step number two',
+                            'Task step number three',
+                        ],
+                        "developers" => [1, 2],
+                        "createdBy" => 1
+                    ]
+                ]
+            ],
+            [
+                "id" => 2,
+                "name" => 'Column two',
+                "description" => '',
+                "tasks" => [
+                    [
+                        "id" => 7,
+                        "name" => 'Task number six tra ta ta ta extender lorem impum ',
+                        "description" => 'Task description',
+                        "category" => 'BUG',
+                        "steps" => [
+                            'Task step number one',
+                            'Task step number two',
+                            'Task step number three',
+                        ],
+                        "developers" => [1, 2],
+                        "createdBy" => 1
+                    ]
+                ]
+            ],
+            [
+                "id" => 3,
+                "name" => 'Column two',
+                "description" => '',
+                "tasks" => [
+                    [
+                        "id" => 8,
+                        "name" => 'Task number six tra ta ta ta extender lorem impum ',
+                        "description" => 'Task description',
+                        "category" => 'BUG',
+                        "steps" => [
+                            'Task step number one',
+                            'Task step number two',
+                            'Task step number three',
+                        ],
+                        "developers" => [1, 2],
+                        "createdBy" => 1
+                    ]
+                ]
+            ]
+        ];
+    }
+}

@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\CQRS\User\Domain;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="app_users")
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\CQRS\User\Infrastructure\UserRepository")
  */
 class User implements UserInterface, \Serializable
 {
@@ -39,11 +41,17 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\CQRS\Task\Domain\Task", mappedBy="createdBy")
+     */
+    private $tasks;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->isActive = true;
+        $this->tasks = new ArrayCollection();
     }
 
     /**
@@ -129,5 +137,36 @@ class User implements UserInterface, \Serializable
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->tasks->contains($task)) {
+            $this->tasks->removeElement($task);
+            // set the owning side to null (unless already changed)
+            if ($task->getCreatedBy() === $this) {
+                $task->setCreatedBy(null);
+            }
+        }
+
+        return $this;
     }
 }
