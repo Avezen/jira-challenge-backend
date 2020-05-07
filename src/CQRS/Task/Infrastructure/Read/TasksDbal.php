@@ -10,21 +10,23 @@ namespace App\CQRS\Task\Infrastructure\Read;
 
 
 use App\CQRS\Task\Application\Read\TasksInterface;
+use App\CQRS\Task\Domain\Task;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TasksDbal implements TasksInterface
 {
-    private $connection;
+    private $em;
 
     public function __construct(EntityManagerInterface $em)
     {
-        $this->connection = $em->getConnection();
+        $this->em = $em;
     }
 
     public function getTasks()
     {
-        $qb = $this->connection->createQueryBuilder();
+        $qb = $this->em->getRepository(Task::class);
 
+//        dd($qb->findAll());
 //        $qb->select('*')
 //            ->from('tasks')
 //        ;
