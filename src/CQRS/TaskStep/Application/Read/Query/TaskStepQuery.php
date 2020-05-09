@@ -6,10 +6,10 @@
  * Time: 12:59
  */
 
-namespace App\CQRS\Task\Application\Read\Query;
+namespace App\CQRS\TaskStep\Application\Read\Query;
 
 
-class TasksQuery
+class TaskStepQuery
 {
     public function __construct()
     {

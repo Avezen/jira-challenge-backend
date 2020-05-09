@@ -2,6 +2,7 @@
 
 namespace App\CQRS\User\Domain;
 
+use App\CQRS\Task\Domain\Task;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,7 +44,12 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\OneToMany(targetEntity="App\CQRS\Task\Domain\Task", mappedBy="createdBy")
      */
-    private $tasks;
+    private $createdTasks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\CQRS\Task\Domain\Task", mappedBy="createdFor")
+     */
+    private $assignedTasks;
 
     /**
      * User constructor.
@@ -51,7 +57,8 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
-        $this->tasks = new ArrayCollection();
+        $this->createdTasks = new ArrayCollection();
+        $this->assignedTasks = new ArrayCollection();
     }
 
     /**
@@ -99,6 +106,68 @@ class User implements UserInterface, \Serializable
         $this->password = $password;
     }
 
+    /**
+     * @return Collection|Task[]
+     */
+    public function getCreatedTasks(): Collection
+    {
+        return $this->createdTasks;
+    }
+
+    public function addCreatedTask(Task $createdTask): self
+    {
+        if (!$this->createdTasks->contains($createdTask)) {
+            $this->createdTasks[] = $createdTask;
+            $createdTask->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedTask(Task $createdTask): self
+    {
+        if ($this->createdTasks->contains($createdTask)) {
+            $this->createdTasks->removeElement($createdTask);
+            // set the owning side to null (unless already changed)
+            if ($createdTask->getCreatedBy() === $this) {
+                $createdTask->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getAssignedTasks(): Collection
+    {
+        return $this->assignedTasks;
+    }
+
+    public function addAssignedTask(Task $assignedTask): self
+    {
+        if (!$this->assignedTasks->contains($assignedTask)) {
+            $this->assignedTasks[] = $assignedTask;
+            $assignedTask->setCreatedFor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssignedTask(Task $assignedTasks): self
+    {
+        if ($this->assignedTasks->contains($assignedTasks)) {
+            $this->assignedTasks->removeElement($assignedTasks);
+            // set the owning side to null (unless already changed)
+            if ($assignedTasks->getCreatedFor() === $this) {
+                $assignedTasks->setCreatedFor(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getRoles()
     {
         return array('ROLE_USER');
@@ -137,36 +206,5 @@ class User implements UserInterface, \Serializable
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);
-    }
-
-    /**
-     * @return Collection|Task[]
-     */
-    public function getTasks(): Collection
-    {
-        return $this->tasks;
-    }
-
-    public function addTask(Task $task): self
-    {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Task $task): self
-    {
-        if ($this->tasks->contains($task)) {
-            $this->tasks->removeElement($task);
-            // set the owning side to null (unless already changed)
-            if ($task->getCreatedBy() === $this) {
-                $task->setCreatedBy(null);
-            }
-        }
-
-        return $this;
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\CQRS\Task\Application\Read\Query\TaskQuery;
+use App\CQRS\TaskStep\Application\Read\Query\TaskStepQuery;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/api")
  */
-class TaskController extends ApiController
+class TaskStepController extends ApiController
 {
     /**
      * @Route("/", name="api")
@@ -19,11 +19,11 @@ class TaskController extends ApiController
     }
 
     /**
-     * @Route("/task", name="get_task_list")
+     * @Route("/task-step", name="get_task_step_list")
      */
-    public function getTaskList()
+    public function getTaskStepList()
     {
-        $tasks = $this->queryBus->query(new TaskQuery());
+        $tasks = $this->queryBus->query(new TaskStepQuery());
 
         return $this->json($tasks);
     }

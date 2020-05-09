@@ -6,10 +6,10 @@
  * Time: 13:06
  */
 
-namespace App\CQRS\Task\Application\Read;
+namespace App\CQRS\User\Application\Read;
 
 
-interface TasksInterface
+interface UserInterface
 {
     public function getTasks();
 }

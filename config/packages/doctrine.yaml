@@ -15,8 +15,29 @@ doctrine:
                 type: annotation
                 dir: '%kernel.project_dir%/src/CQRS/User/Domain'
                 prefix: 'App\CQRS\User\Domain'
+
+            Column:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/CQRS/Column/Domain'
+                prefix: 'App\CQRS\Column\Domain'
+
             Task:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/CQRS/Task/Domain'
                 prefix: 'App\CQRS\Task\Domain'
+
+            Category:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/CQRS/Category/Domain'
+                prefix: 'App\CQRS\Category\Domain'
+
+            TaskStep:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/CQRS/TaskStep/Domain'
+                prefix: 'App\CQRS\TaskStep\Domain'
+
+

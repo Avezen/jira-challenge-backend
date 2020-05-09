@@ -9,11 +9,11 @@
 namespace App\CQRS\Task\Infrastructure\Read;
 
 
-use App\CQRS\Task\Application\Read\TasksInterface;
+use App\CQRS\Task\Application\Read\TaskInterface;
 use App\CQRS\Task\Domain\Task;
 use Doctrine\ORM\EntityManagerInterface;
 
-class TasksDbal implements TasksInterface
+class TaskDbal implements TaskInterface
 {
     private $em;
 
@@ -35,7 +35,7 @@ class TasksDbal implements TasksInterface
 
         return [
             [
-                "id" => 1,
+                "id" => 10,
                 "name" => 'Column one',
                 "description" => '',
                 "tasks" => [
@@ -55,7 +55,7 @@ class TasksDbal implements TasksInterface
                 ]
             ],
             [
-                "id" => 2,
+                "id" => 20,
                 "name" => 'Column two',
                 "description" => '',
                 "tasks" => [
@@ -75,7 +75,7 @@ class TasksDbal implements TasksInterface
                 ]
             ],
             [
-                "id" => 3,
+                "id" => 30,
                 "name" => 'Column two',
                 "description" => '',
                 "tasks" => [

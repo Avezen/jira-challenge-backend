@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\CQRS\Task\Application\Read\Query\TaskQuery;
+use App\CQRS\Category\Application\Read\Query\CategoryQuery;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/api")
  */
-class TaskController extends ApiController
+class CategoryController extends ApiController
 {
     /**
      * @Route("/", name="api")
@@ -19,11 +19,11 @@ class TaskController extends ApiController
     }
 
     /**
-     * @Route("/task", name="get_task_list")
+     * @Route("/category", name="get_category_list")
      */
-    public function getTaskList()
+    public function getCategoryList()
     {
-        $tasks = $this->queryBus->query(new TaskQuery());
+        $tasks = $this->queryBus->query(new CategoryQuery());
 
         return $this->json($tasks);
     }

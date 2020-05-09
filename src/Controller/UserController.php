@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\CQRS\Task\Application\Read\Query\TaskQuery;
+use App\CQRS\User\Application\Read\Query\UserQuery;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/api")
  */
-class TaskController extends ApiController
+class UserController extends ApiController
 {
     /**
      * @Route("/", name="api")
@@ -19,11 +19,11 @@ class TaskController extends ApiController
     }
 
     /**
-     * @Route("/task", name="get_task_list")
+     * @Route("/task-step", name="get_user_list")
      */
-    public function getTaskList()
+    public function getUserList()
     {
-        $tasks = $this->queryBus->query(new TaskQuery());
+        $tasks = $this->queryBus->query(new UserQuery());
 
         return $this->json($tasks);
     }
