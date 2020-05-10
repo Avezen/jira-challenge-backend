@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CQRS\Column\Domain;
+namespace App\CQRS\Stage\Domain;
 
 use App\CQRS\Task\Domain\Task;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,9 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\CQRS\Column\Infrastructure\ColumnRepository")
+ * @ORM\Entity(repositoryClass="App\CQRS\Stage\Infrastructure\StageRepository")
  */
-class Column
+class Stage
 {
     /**
      * @ORM\Id()
@@ -25,7 +25,7 @@ class Column
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\CQRS\Task\Domain\Task", mappedBy="column")
+     * @ORM\OneToMany(targetEntity="App\CQRS\Task\Domain\Task", mappedBy="stage", fetch="EAGER")
      */
     private $tasks;
 
@@ -63,7 +63,7 @@ class Column
     {
         if (!$this->tasks->contains($task)) {
             $this->tasks[] = $task;
-            $task->setColumn($this);
+            $task->setStage($this);
         }
 
         return $this;
@@ -74,8 +74,8 @@ class Column
         if ($this->tasks->contains($task)) {
             $this->tasks->removeElement($task);
             // set the owning side to null (unless already changed)
-            if ($task->getColumn() === $this) {
-                $task->setColumn(null);
+            if ($task->getStage() === $this) {
+                $task->setStage(null);
             }
         }
 

@@ -6,10 +6,10 @@
  * Time: 12:59
  */
 
-namespace App\CQRS\Column\Application\Read\Query;
+namespace App\CQRS\Stage\Application\Read\Query;
 
 
-class ColumnsWithActiveTasksQuery
+class StagesWithActiveTasksQuery
 {
     public function __construct()
     {

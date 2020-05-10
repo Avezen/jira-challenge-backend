@@ -3,7 +3,7 @@
 namespace App\CQRS\Task\Domain;
 
 use App\CQRS\Category\Domain\Category;
-use App\CQRS\Column\Domain\Column;
+use App\CQRS\Stage\Domain\Stage;
 use App\CQRS\TaskStep\Domain\TaskStep;
 use App\CQRS\User\Domain\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,30 +33,30 @@ class Task
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\CQRS\Column\Domain\Column", inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity="App\CQRS\Stage\Domain\Stage", inversedBy="tasks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $column;
+    private $stage;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\CQRS\TaskStep\Domain\TaskStep", mappedBy="task")
+     * @ORM\OneToMany(targetEntity="App\CQRS\TaskStep\Domain\TaskStep", mappedBy="task", fetch="EAGER")
      */
     private $taskSteps;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\CQRS\Category\Domain\Category", inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity="App\CQRS\Category\Domain\Category", inversedBy="tasks", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\CQRS\User\Domain\User", inversedBy="createdTasks")
+     * @ORM\ManyToOne(targetEntity="App\CQRS\User\Domain\User", inversedBy="createdTasks", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $createdBy;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\CQRS\User\Domain\User", inversedBy="assignedTasks")
+     * @ORM\ManyToOne(targetEntity="App\CQRS\User\Domain\User", inversedBy="assignedTasks", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $createdFor;
@@ -95,14 +95,14 @@ class Task
         return $this;
     }
 
-    public function getColumn(): ?Column
+    public function getStage(): ?Stage
     {
-        return $this->column;
+        return $this->stage;
     }
 
-    public function setColumn(?Column $column): self
+    public function setStage(?Stage $stage): self
     {
-        $this->column = $column;
+        $this->stage = $stage;
 
         return $this;
     }

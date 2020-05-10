@@ -6,13 +6,14 @@
  * Time: 13:12
  */
 
-namespace App\CQRS\Column\Infrastructure;
+namespace App\CQRS\Stage\Infrastructure;
 
 
-use App\CQRS\Column\Application\Read\ColumnInterface;
+use App\CQRS\Stage\Application\Read\StageInterface;
+use App\CQRS\Stage\Domain\Stage;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ColumnDbal implements ColumnInterface
+class StageDbal implements StageInterface
 {
     private $em;
 
@@ -21,7 +22,16 @@ class ColumnDbal implements ColumnInterface
         $this->em = $em;
     }
 
-    public function getColumnsWithActiveTasks()
+    public function getStagesWithActiveTasks()
+    {
+        $queryBuilder = $this->em->getRepository(Stage::class)->findAll();
+
+        dd($queryBuilder[0]->getTasks()->toArray());
+
+        return $queryBuilder->execute()->fetchAll();
+    }
+
+    public function test()
     {
         $queryBuilder = $this->em->getConnection()->createQueryBuilder();
 
