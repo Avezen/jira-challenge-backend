@@ -15,9 +15,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, \Serializable
 {
     /**
-     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -61,33 +61,26 @@ class User implements UserInterface, \Serializable
         $this->assignedTasks = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    /**
-     * @param mixed $username
-     */
     public function setUsername($username): void
     {
         $this->username = $username;
     }
 
-    /**
-     * @return mixed
-     */
     public function getEmail()
     {
         return $this->email;
     }
 
-    /**
-     * @param mixed $email
-     */
     public function setEmail($email): void
     {
         $this->email = $email;
@@ -98,9 +91,6 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
-    /**
-     * @param mixed $password
-     */
     public function setPassword($password): void
     {
         $this->password = $password;
