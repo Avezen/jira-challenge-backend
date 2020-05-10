@@ -10,17 +10,17 @@ namespace App\CQRS\Task\Application\Write\Command;
 
 
 use App\CQRS\Stage\Domain\Stage;
-use App\Request\Task\TaskRequest;
+use App\CQRS\Task\Domain\Task;
 
-class CreateTaskCommand
+class UpdateTaskStageCommand
 {
     private $stage;
-    private $taskRequest;
+    private $task;
 
-    public function __construct(Stage $stage, TaskRequest $taskRequest)
+    public function __construct(Stage $stage, Task $task)
     {
         $this->stage = $stage;
-        $this->taskRequest = $taskRequest;
+        $this->task = $task;
     }
 
     /**
@@ -40,18 +40,18 @@ class CreateTaskCommand
     }
 
     /**
-     * @return TaskRequest
+     * @return Task
      */
-    public function getTaskRequest(): TaskRequest
+    public function getTask(): Task
     {
-        return $this->taskRequest;
+        return $this->task;
     }
 
     /**
-     * @param TaskRequest $taskRequest
+     * @param Task $task
      */
-    public function setTaskRequest(TaskRequest $taskRequest): void
+    public function setTaskRequest(Task $task): void
     {
-        $this->taskRequest = $taskRequest;
+        $this->task = $task;
     }
 }

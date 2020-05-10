@@ -24,11 +24,8 @@ class TaskFactory
         $this->em = $em;
     }
 
-    public function create(int $columnId, TaskRequest $taskRequest)
+    public function create(Stage $stage, TaskRequest $taskRequest)
     {
-        //ToDo remove get stage from here, place it in handler or even form
-        $stage = $this->em->getRepository(Stage::class)->find($columnId);
-
         $task = new Task();
         $task
             ->setStage($stage)
@@ -47,6 +44,14 @@ class TaskFactory
 
             $this->em->persist($taskStep);
         }
+
+        $this->em->persist($task);
+        $this->em->flush();
+    }
+
+    public function updateStage(Stage $stage, Task $task)
+    {
+        $task->setStage($stage);
 
         $this->em->persist($task);
         $this->em->flush();

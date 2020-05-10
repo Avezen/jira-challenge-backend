@@ -20,6 +20,11 @@ class StageRepository extends ServiceEntityRepository
         parent::__construct($registry, Stage::class);
     }
 
+    public function findAllSortById()
+    {
+        return $this->findBy(array(), array('id' => 'ASC'));
+    }
+
     public function getStagesWithActiveTasks()
     {
         return $this->createQueryBuilder('s')

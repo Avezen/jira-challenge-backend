@@ -35,7 +35,7 @@ class StagesWithActiveTasksQueryHandler implements MessageHandlerInterface
     {
         // Todo create factory for models creation
         $stageList = [];
-        foreach ($this->stageRepository->findAll() as $stage){
+        foreach ($this->stageRepository->findAllSortById() as $stage){
             $stageModel = new Stage();
             $stageModel->id = $stage->getId();
             $stageModel->name = $stage->getName();

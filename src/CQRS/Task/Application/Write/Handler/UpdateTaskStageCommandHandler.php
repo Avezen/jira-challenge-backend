@@ -10,10 +10,11 @@ namespace App\CQRS\Task\Application\Write\Handler;
 
 
 use App\CQRS\Task\Application\Write\Command\CreateTaskCommand;
+use App\CQRS\Task\Application\Write\Command\UpdateTaskStageCommand;
 use App\CQRS\Task\Infrastructure\Write\TaskFactory;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class CreateTaskCommandHandler implements MessageHandlerInterface
+class UpdateTaskStageCommandHandler implements MessageHandlerInterface
 {
     private $taskFactory;
 
@@ -22,11 +23,11 @@ class CreateTaskCommandHandler implements MessageHandlerInterface
         $this->taskFactory = $taskFactory;
     }
 
-    public function __invoke(CreateTaskCommand $createTaskCommand)
+    public function __invoke(UpdateTaskStageCommand $updateTaskStageCommand)
     {
-        $this->taskFactory->create(
-            $createTaskCommand->getStage(),
-            $createTaskCommand->getTaskRequest()
+        $this->taskFactory->updateStage(
+            $updateTaskStageCommand->getStage(),
+            $updateTaskStageCommand->getTask()
         );
     }
 }

@@ -47,9 +47,8 @@ class AuthController extends ApiController
      * @param JWTTokenManagerInterface $JWTManager
      * @return JsonResponse
      */
-    public function getTokenUser(JWTTokenManagerInterface $JWTManager)
+    public function getTokenUser(JWTTokenManagerInterface $JWTManager, UserInterface $user)
     {
-        dd('dsds');
         return new JsonResponse(['token' => $JWTManager->create($user)]);
     }
 

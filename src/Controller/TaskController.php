@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\CQRS\Stage\Domain\Stage;
 use App\CQRS\Task\Application\Read\Query\TaskQuery;
 use App\CQRS\Task\Application\Write\Command\CreateTaskCommand;
+use App\CQRS\Task\Application\Write\Command\UpdateTaskStageCommand;
+use App\CQRS\Task\Domain\Task;
 use App\Form\Task\TaskType;
 use App\Request\Task\TaskRequest;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -34,11 +38,12 @@ class TaskController extends ApiController
     }
 
     /**
-     * @Route("/task", name="post_task", methods="POST")
+     * @Route("/stage/{stage}/task", name="create_task", methods="POST")
      * @param Request $request
+     * @param Stage $stage
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function postTask(Request $request)
+    public function createTask(Request $request, Stage $stage)
     {
         $data = json_decode($request->getContent(), true);
 
@@ -46,14 +51,26 @@ class TaskController extends ApiController
         $form = $this->createForm(TaskType::class, $taskRequest);
         $form->submit($data);
 
-//        dd($this->getErrorsFromForm($form));
-        $tasks = [];
         if ($form->isSubmitted() && $form->isValid()) {
-            $columnId = 1;
-            $tasks = $this->commandBus->dispatch(new CreateTaskCommand($columnId, $form->getData()));
+            $this->commandBus->dispatch(new CreateTaskCommand($stage, $form->getData()));
+
+            return $this->json('success', Response::HTTP_CREATED);
         }
 
-        return $this->json($tasks);
+        return $this->json('Validation error', Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @Route("/task/{task}/stage/{stage}", name="update_task_stage", methods="PATCH")
+     * @param Task $task
+     * @param Stage $stage
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function updateTaskStage(Task $task, Stage $stage)
+    {
+        $this->commandBus->dispatch(new UpdateTaskStageCommand($stage, $task));
+
+        return $this->json('success', Response::HTTP_CREATED);
     }
 
     private function getErrorsFromForm(FormInterface $form)
